@@ -12,13 +12,13 @@
     <router-link to="/radio-button">
       <Button severity="contrast" link label="Radio Button" />
     </router-link>
-   
+
   </div>
 
 
 </template>
 <script setup lang="ts">
-
+//code starts
 import Button from '../components/Button/Button.vue';
 
 const handleClick = (event: MouseEvent) => {
