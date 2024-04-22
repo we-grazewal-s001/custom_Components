@@ -7,7 +7,7 @@ const inputRef = ref();
 const props = defineProps(inputProps);
 const model = defineModel();
 
-const defaultClass = ref(`flex gap-2 m-1 items-center`)
+const defaultClass = ref(`flex gap-2 m-1 items-center cursor-pointer`)
 const inputWrapper = computed(() => twMerge(` w-6 h-6 border-gray-300 border-2 border-solid hover:border-gray-400 
 rounded-full relative ${props.disabled ? 'border-gray-400' : ''} ${props.invalid ? ' border-red-400 hover:border-red-400 ' : ""}
  ${model.value == props.value ? ' border-emerald-400 hover:border-emerald-400' : ''}  `).split(" "))

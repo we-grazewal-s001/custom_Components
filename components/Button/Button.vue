@@ -3,7 +3,6 @@
 import { props as buttonProps } from "./props";
 import { twMerge } from "tailwind-merge";
 
-console.log(typeof buttonProps)
 const props = defineProps(buttonProps);
 
 const defaultClass = ref(' min-h-[32px] relative rounded-md px-4 py-2 bg-transparent hover:bg-gray-50 ')
@@ -66,7 +65,6 @@ const outlinedObj: severityObjType = {
 const severityClass: ComputedRef<String> = computed(() => (severityObj[props.severity]))
 // @ts-ignore
 const plainClass: ComputedRef<String> = computed(() => (plainObj[props.severity]))
-
 // @ts-ignore
 const textClass: ComputedRef<String> = computed(() => (textObj[props.severity]))
 // @ts-ignore
