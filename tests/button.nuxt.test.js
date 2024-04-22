@@ -3,7 +3,10 @@ import Button from "../components/Button/Button.vue";
 
 
 describe('Custom button test cases for functionality', function () {
-
+    test('check if component is being imported in line',async()=>{
+        const comp=  await import('../components/Button/Button.vue')
+        expect(comp).toBeDefined()
+    })
     test('check if component is being mounted',async()=>{
         const comp= await mount(Button)
         expect(comp).toBeDefined()
@@ -22,7 +25,7 @@ describe('Custom button test cases for functionality', function () {
         const label = 'Button';
         const comp =await mount(Button);
 
-        const button=  comp.find('#button').trigger('click')
+        const button=  comp.find('[data-testId="button"]').trigger('click')
 
         expect(button).toBeTruthy()
     });
@@ -35,7 +38,7 @@ describe('Custom button test cases for functionality', function () {
                 disabled:true
             }
         });
-        const button=await comp.find("#button").trigger('click')
+        const button=await comp.find("button").trigger('click')
         expect(button).toBeFalsy()
 
 
@@ -48,7 +51,7 @@ describe('Custom button test cases for functionality', function () {
                 type:'submit'
             }
         });
-        comp.find("#button").trigger('click')
+        comp.find("button").trigger('click')
 
         const emiter=await comp.emitted('handle-click')
 
@@ -64,7 +67,7 @@ describe('Custom button test cases for functionality', function () {
             }
         });
 
-        const button = comp.find('#button')
+        const button = comp.find('[data-testId="button"]')
         expect(button.attributes('type')).toBe('submit');
 
     })
@@ -98,7 +101,7 @@ describe('Custom button test cases for background, text and hover color', functi
                 raised:true
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
         expect(button.classes()).toContain('shadow');
     })
     test('check if button are circular on use of rounded prop ',async()=>{
@@ -107,7 +110,7 @@ describe('Custom button test cases for background, text and hover color', functi
                 rounded:true
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('rounded-full');
     })
@@ -119,7 +122,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('bg-emerald-400');
         expect(button.classes()).toContain('hover:bg-emerald-500')
@@ -134,7 +137,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('bg-red-400');
         expect(button.classes()).toContain('hover:bg-red-500')
@@ -148,7 +151,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('bg-orange-400');
         expect(button.classes()).toContain('hover:bg-orange-500')
@@ -162,7 +165,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('bg-green-400');
         expect(button.classes()).toContain('hover:bg-green-500')
@@ -177,7 +180,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('bg-blue-400');
         expect(button.classes()).toContain('hover:bg-blue-500')
@@ -192,7 +195,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('bg-purple-400');
         expect(button.classes()).toContain('hover:bg-purple-500')
@@ -208,7 +211,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
                 }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('border');
         expect(button.classes()).toContain('hover:bg-purple-50')
@@ -223,7 +226,7 @@ describe('Custom button test cases for background, text and hover color', functi
 
             }
         });
-        let button=comp.find('#button')
+        let button=comp.find('[data-testId="button"]')
 
         expect(button.classes()).toContain('border');
         expect(button.classes()).toContain('hover:bg-purple-50')
@@ -239,7 +242,7 @@ describe('Custom styles',()=>{
                 }
             })
         await comp.vm.$nextTick();
-        const buttonElement = comp.find('button');
+        const buttonElement = comp.find('[data-testId="button"]');
         expect(buttonElement.attributes('style')).toEqual(customStyle);
     });
     test('check if custom className  is being applied', async function(assert) {
@@ -250,7 +253,7 @@ describe('Custom styles',()=>{
             }
         })
         await comp.vm.$nextTick();
-        const button = comp.find('button');
+        const button = comp.find('[data-testId="button"]');
         expect(button.classes()).toContain(customClass)
     });
 
@@ -285,14 +288,14 @@ describe('Button Accessibility', () => {
     });
 
     test('should have proper aria attributes for accessibility', () => {
-        const button = comp.find('#button');
+        const button = comp.find('[data-testId="button"]');
         expect(button.attributes('role')).toBe('button');
         expect(button.attributes('aria-label')).toBe('Submit');
         expect(button.attributes('aria-disabled')).toBe('false');
     });
 
     test('should work with screen readers', () => {
-        const button = comp.find('#button');
+        const button = comp.find('[data-testId="button"]');
         expect(button.attributes('aria-hidden')).toBeUndefined();
         expect(button.attributes('role')).toBe('button');
         expect(button.text()).toBe('Submit');
@@ -319,7 +322,7 @@ describe('Button Performance', () => {
     });
 
     test('responsiveness should be within acceptable limits', () => {
-        const button = comp.find('#button');
+        const button = comp.find('[data-testId="button"]');
         const startTime = performance.now();
         button.trigger('click');
 

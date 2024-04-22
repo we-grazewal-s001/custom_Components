@@ -13,7 +13,7 @@ const handleSearch = () => {
 </script>
 <template>
   <div class=" m-10">
-
+    <Button @handle-click="handleSearch" :loading="loading" label="hello" />
     <div class="m-2">
       <Button link severity="primary" label="Link" />
       <Button link severity="secondary" label="Link" />

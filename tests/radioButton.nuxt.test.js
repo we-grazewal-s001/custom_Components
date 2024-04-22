@@ -3,7 +3,10 @@ import RadioButton from "../components/RadioButton/RadioButton.vue";
 
 
 describe('Custom button test cases for functionality', function () {
-
+    test('check if component is being imported in line',async()=>{
+        const comp=  await import('../components/RadioButton/RadioButton.vue')
+        expect(comp).toBeDefined()
+    })
     test('check if component is being mounted',async()=>{
         const comp= await mount(RadioButton)
         expect(comp).toBeDefined()
@@ -19,22 +22,15 @@ describe('Custom button test cases for functionality', function () {
         expect(tag.text()).toContain(label);
     });
     test('button is being clicked ', async() => {
-        const label = 'Button';
+         
         const comp =await mount(RadioButton);
 
-        const button=  comp.find('#button').trigger('click')
+        const button=  comp.trigger('click')
 
         expect(button).toBeTruthy()
     });
-    test('button is being selected when clicked ', async() => {
-        const label = 'Button';
-        const comp =await mount(RadioButton);
-
-        const button=  comp.find('#button').trigger('click')
-
-        expect(button).toBeTruthy()
-    });
-    test('input border  disabled when disbaled is passed',async()=>{
+     
+    test('input border  disabled when disabled is passed',async()=>{
         const comp = await mount(RadioButton,{
             propsData:{
             inputId:"radios",
@@ -58,10 +54,12 @@ describe("Reacting when selected ",async()=>{
         })
 
     test("when clicked checked status is being change of the radio button",async()=>{
-
-        comp.trigger('click')
         const input= comp.find("#radios")
         
+        expect(input.element.checked).toBeFalsy()
+        comp.trigger('click')
+
+       
         expect(input.element.checked).toBeTruthy()
         
     }
@@ -72,7 +70,7 @@ describe("Reacting when selected ",async()=>{
         const input= comp.find("#radios")
         expect(input.element.classList).toContain('checked:scale-100')
     })
-    test('input border is changing when hoved',async()=>{
+    test('input border is changing when hover',async()=>{
        
         const input= comp.find("#inputWrapper")
         expect(input.element.classList).toContain('border-gray-300')
@@ -80,24 +78,29 @@ describe("Reacting when selected ",async()=>{
         expect(input.element.classList).toContain('hover:border-gray-400')
     })
 
-    test('input border is changing when clicked',async()=>{
-        const ingredient=ref()
+    test('input border is changing when value is matched',async()=>{
+       
         const comp = await mount(RadioButton,{
+            propsData:{
+            inputId:"radios",
+            modelValue: "kjbd",
+            value:"Abc"
+            },
+        })
+        const inputWrapper= comp.find("#inputWrapper")
+        
+        expect(inputWrapper.element.classList).toContain('border-gray-300')
+         
+        const comp2 = await mount(RadioButton,{
             propsData:{
             inputId:"radios",
             modelValue: "Abc",
             value:"Abc"
             },
         })
-         comp.trigger('click')
-         
-        await comp.vm.$nextTick();
-
-        const inputWrapper= comp.find("#inputWrapper")
-
-        console.log(inputWrapper.element.classList)
-        
-        expect(inputWrapper.element.classList).toContain('border-emerald-400')
+        const inputWrapper2= comp2.find("#inputWrapper")
+          
+        expect(inputWrapper2.element.classList).toContain('border-emerald-400')
         
     })
 
@@ -127,7 +130,6 @@ describe("Reacting when selected ",async()=>{
             disabled:true
             }
         })
-         
       
         
         const inputWrapper= comp.find("#inputWrapper")
@@ -139,7 +141,17 @@ describe("Reacting when selected ",async()=>{
         
     })
 
-    test("Input box is chnaging color when clicked",async()=>{
+    test('check if slot is rendering the data',async()=>{
+            const comp= await mount(RadioButton,{
+                slots:{
+                    name:`<template>radio</template>`
+                }
+            })
+            expect(comp.html()).toContain(`<template>radio</template>`)
+           
+    })
+
+    test("Input box is changing color when clicked",async()=>{
         const input= comp.find("#radios")
 
         comp.trigger('click')
@@ -168,16 +180,6 @@ describe('Button Accessibility', () => {
     afterEach(() => {
         comp.unmount();
     });
-
-
-    // test('should be focusable using keyboard navigation', async () => {
-    //     const wrapper = await mount(RadioButton)
-    //     const button=await wrapper.find('button')
-    //      await  button.trigger('keydown.tab');
-
-
-    //     expect(document.activeElement).not.toBe(button);
-    // });
 
     test('should have proper aria attributes for accessibility', () => {
         const button = comp.find('#Radio1');
@@ -208,9 +210,9 @@ describe('Button Performance', () => {
       
 
     test('responsiveness should be within acceptable limits', () => {
-        const button = comp.find('#button');
+        
         const startTime = performance.now();
-        button.trigger('click');
+        comp.trigger('click');
 
         return new Promise(resolve => {
             setTimeout(() => {

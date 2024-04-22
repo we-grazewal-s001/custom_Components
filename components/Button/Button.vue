@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 const props = defineProps(buttonProps);
 
 const defaultClass = ref(' min-h-[32px] relative rounded-md px-4 py-2 bg-transparent hover:bg-gray-50 ')
-
+const id = useId()
 type severityObjType = {
   primary: String;
   secondary: String;
@@ -27,7 +27,7 @@ const severityObj: severityObjType = {
   'warning': 'bg-orange-400 hover:bg-orange-500  ',
   'help': '  bg-purple-400 hover:bg-purple-500  ',
   'info': ' bg-blue-400 hover:bg-blue-500 ',
-  'contrast': 'bg-black hover:bg-white  hover:bg-black'
+  'contrast': 'bg-black hover:bg-white  hover:bg-slate-800'
 }
 
 const plainObj: severityObjType = {
@@ -97,7 +97,7 @@ const text = computed(() => {
 
 
 const outlined = computed(() => {
-  let val = `  ${text.value}  bg-transparent  border ${outlinedClass.value}`
+  let val = `  ${text.value}  bg-transparent  border ${outlinedClass.value} `
 
   return twMerge(val.split(' '))
 
@@ -107,12 +107,9 @@ const outlined = computed(() => {
 const link = computed(() => {
   if (props.link) {
     let val = twMerge(` ${plain.value} hover:bg-transparent hover:underline `.split(" "))
-
     return twMerge(val.split(' '))
   }
-
 })
-
 
 const buttonOverlay = computed(() => {
   let val = 'absolute rounded-md p-0 top-0 left-0 w-full h-full z-[999] bg-white opacity-50 ' +
@@ -142,7 +139,7 @@ const buttonClass = computed(
   () => {
 
     return twMerge(` ${defaultClass.value} ${props.disabled || props.loading ? ` disabled:pointer-events-none disabled:cursor-default
-            ${borderOpacity}` : ''}
+            ${borderOpacity.value}` : ''}
             ${props.raised ? 'shadow' : ''}
              relative
              ${props.text ? text.value : props.outlined ? outlined.value : props.link ? link.value :
@@ -160,8 +157,8 @@ const iconAlignment = computed(() => {
 <template>
 
 
-  <button :aria-label="props.label" :aria-disabled="props.disabled || props.loading" :role="props.type"
-    :style="props.styleName" id="button" :type="props.type" @click="$emit('handle-click')"
+  <button data-testId='button' :aria-label="props.label" :aria-disabled="props.disabled || props.loading"
+    :role="props.type" :style="props.styleName" :id="id" :type="props.type" @click="$emit('handle-click')"
     @keydown.enter="$emit('handle-enter')" :disabled="props.disabled || props.loading" :class="buttonClass">
 
     <span id="buttonLoading" v-if="props.disabled || props.loading" :class="`${buttonOverlay}`"></span>
@@ -172,7 +169,9 @@ const iconAlignment = computed(() => {
     <span v-else>
 
       <span :class="iconAlignment">
-        <span class="px-1" id="label" v-if="props.label">{{ props.label }}</span>
+        <slot name="label">
+          <span class="px-1" id="label" v-if="props.label">{{ props.label }}</span>
+        </slot>
         <Icon id="iconright" v-if="props.icon" :name="props.icon" :size="props.iconSize" :color="`${!props.text && !props.outlined && !props.plain && !props.iconColor ? 'white' : (props.iconColor
           || iconColor[props.severity])}`" />
       </span>

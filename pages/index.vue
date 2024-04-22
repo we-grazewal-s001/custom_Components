@@ -1,61 +1,27 @@
 <template>
 
 
-
-  <div>
-
-
-
-
-
-    <Button severity="primary" label="Primary" />
-
-    <div>
-      <div>.
-        <RadioButton inputId="ingredient1" v-model="ingredient" value='Cheese' name="Cheese" >  <template #name>dfsdg</template> </RadioButton>
-
-      </div>
-      <div>
-        <RadioButton inputId="ingredient2" v-model="ingredient" value='Mushroom' name="Mushroom" />
-
-      </div>
-      <div>
-        <RadioButton disabled inputId="ingredient3" v-model="ingredient" value='Peeper' name="Peeper" />
-
-      </div>
-      <div>
-        <RadioButton inputId="ingredient4" invalid v-model="ingredient" value='Onion' name="Onion" />
-      </div>
-    </div>
-    <p class="capitalize">{{ ingredient }} is here</p>
-
-    <div class="card flex justify-content-center">
-      <div class="flex flex-column gap-3">
-        <div v-for="category in categories" :key="category.key" class="flex align-items-center">
-          <RadioButton v-model="selectedCategory" :inputId="category.key" name="dynamic" :value="category.name" />
-
-        </div>
-      </div>
-    </div>
-
-
-
-
+  <nav class="py-4 px-2 bg-emerald-100 flex items-center ">
+    <Icon name="ep:menu" />
+    <b class="px-1 text-lg">Custom Components Webreinvent</b>
+  </nav>
+  <div class="w-[260px] h-screen overflow-scroll fixed  bg-yellow-100 flex flex-col gap-1">
+    <router-link to="/button">
+      <Button severity="contrast" link label="Button" />
+    </router-link>
+    <router-link to="/radio-button">
+      <Button severity="contrast" link label="Radio Button" />
+    </router-link>
+   
   </div>
+
 
 </template>
 <script setup lang="ts">
-import Button from '../components/Button/Button.vue'
-import RadioButton from "../components/RadioButton/RadioButton.vue";
 
-const ingredient = ref('')
+import Button from '../components/Button/Button.vue';
 
-const selectedCategory = ref('Production');
-const categories = ref([
-  { name: 'Accounting', key: 'A' },
-  { name: 'Marketing', key: 'M' },
-  { name: 'Production', key: 'P' },
-  { name: 'Research', key: 'R' }
-]);
-
+const handleClick = (event: MouseEvent) => {
+  console.log('Button Clicked', event)
+}
 </script>

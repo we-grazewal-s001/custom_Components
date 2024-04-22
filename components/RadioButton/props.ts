@@ -1,7 +1,7 @@
 export const props={
     inputId:{
         type:String||Number,
-        required:true,
+        required:false,
         unique:true
     },
     name:{
@@ -11,8 +11,8 @@ export const props={
     },
     value:{
         type:String||Number,
-        required:true,
-        default:false
+        required:false,
+        default:''
     },
     disabled:{
         type:Boolean,
